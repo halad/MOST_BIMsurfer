@@ -4,7 +4,7 @@ MOST_BIMsurfer
 3D BIM Viewer; BIMsurfer extended
 
 authors:
-Kaltenriner Christoph (mailchriska@gmail.com)
+Kaltenriner Christoph (mailchriska@gmail.com) \\
 Leichtfried Michael (leichtfried.michael@gmail.com)
 TU Vienna
 
@@ -19,13 +19,14 @@ http://most.bpi.tuwien.ac.at/
 - Special Objects (MOST: datapoints)
   Objects of special interest have to begin with dp_; mouse events can be forwarded to external application (eg. GWT)
   
-###Bugfixes:
+###Fixes:
 - special characters in JQuery
    IDs with special characters like the $ sign needs to be escaped. In case of $ in ids, a jquery statement will fail.
 - Scrolling to selected Object in Project Tree
    When in 3D View an Object is selected, the Project tree is scrolled to this object
 - loading of Projects from BIM Server Repository (thanks to DLabz designlabz@gmail.com,veljko@sigidev.com)
 - disappearing objects when panning with touchinput devices
+- validated index.html (thanks to Regina Appel regina.appel003@gmail.com)
 
 ###Featues:
 - Special Objects (Datpoints)
