@@ -20,7 +20,7 @@
 	  	snapshotsToggle, state, topmenuHelp, topmenuImportBimserver, topmenuImportSceneJS, topmenuModeAdvanced, topmenuModeBasic, 
 	  	topmenuPerformancePerformance, topmenuPerformanceQuality, vec3ToRecord, vec4ToRecord, viewportInit, windowResize, zoomLookAt, 
 	  	zoomLookAtNode, setNavigationMode, getNavigationMode, resetView, restoreSpecialObjectHighlight, setViewToObject, setWarning, snapshotsPushObject,
-	  	orbitLookAtNodeSnapshots, handleStart, setZoomLevelAbsolut, deleteHighlights, controlsDoubleClickFilter, controlsDoubleClickOverview, doSetViewToObject,
+	  	orbitLookAtNodeSnapshots, handleStart, setZoomLevelAbsolut, deleteHighlights, controlsDoubleClickFilter, controlsDoubleClickOverview, doSetViewToObject, setExposeSlider,
 	    __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   /*
@@ -1127,7 +1127,7 @@
 	    {
 	    	//find the parent node of the selected one, which holds the node id
 	    	var parent = ($('.controls-tree').find('.controls-tree-selected')).closest(".controls-tree-rel:contains('(BuildingStorey)')");
-	    	exposeSelectedStorey($(parent),distance);
+	    	exposeSelectedStorey($(parent),distance*-1);
 	    }
 	    else
     	{
@@ -1191,6 +1191,21 @@
     }
     return false;
   };
+
+  /**
+   * Sets the expose slider according to the expose level of the selected element
+   */
+  setExposeSlider = function (id) {
+	  var parentId = $('#'+RegExp.escape(id)).parentsUntil('li.controls-tree-rel').parent().attr('id');
+	  var translateNode = state.scene.findNode('translateZone-' + id + '-' + parentId);
+	  if(translateNode != null) {
+		  var sliderMax = ($('#expose')).slider("option" , "max");
+		  ($('#expose')).slider("value" , state.propertyValues.scalefactor*10*Math.abs(translateNode.get('y')));
+	  }
+	  else {
+		  ($('#expose')).slider("value" , 0);
+	  }
+  }
   
   /**
    * Deletes all actual highlights for setting a new highlight
@@ -1384,6 +1399,7 @@
     ($('.controls-tree-selected-parent')).removeClass('controls-tree-selected-parent');
     deleteHighlights();
     if (id != null) {
+      setExposeSlider(id);	
       parentEl = document.getElementById(id);
       $treeItem = ($(parentEl)).children('.controls-tree-item');
       $treeItem.addClass('controls-tree-selected');
