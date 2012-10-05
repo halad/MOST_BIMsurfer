@@ -6,7 +6,7 @@
 -->
 <head>
   <meta charset='utf-8'>
-  <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+  <!-- <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'> -->
   <title>BIMsurfer</title>
   <meta name='description' content='A sleek WebGL viewer for Building Information Models'>
   <meta name='author' content='Rehno Lindeque'>
@@ -515,6 +515,7 @@
       position: absolute;
       width: 100%;
       height: 100%;
+      top: 0px;
     }
     .viewport-performance {
       top: 122px;
@@ -529,7 +530,7 @@
     }
     #expose-title{
     postion: absolute;
-    width: 500px;
+    width: 290px;
     margin-left: 10px;
     margin-top: 5px;
     z-index: 1;
@@ -537,13 +538,13 @@
     #expose{
     postion: absolute;
     top: 5px;
-    width: 500px;
+    width: 290px;
     margin-left: 10px;
    	z-index: 1;
     }
     #transparent-title{
     postion: relative;
-    width: 300px;
+    width: 290px;
     margin-left: 10px;
     margin-top: 10px;
 	z-index: 1;
@@ -551,7 +552,7 @@
     #transparent{
     postion: relative;
     top: 5px;
-    width: 500px;
+    width: 290px;
     margin-left: 10px;
    	z-index: 1;    
     }
@@ -571,7 +572,7 @@
       font-size: 12px;
       overflow-y: scroll;
     }
-    #filtertext {
+    #filterinput {
     	font-size: 12px;
     }
     .filtered-item {
@@ -837,7 +838,6 @@
   <script type="text/javascript">document.multitouchData = true;</script>
 </head>
 <body>
-  <input name='filtertext' id='filtertext' type='text'></input>
   <!-- Screen layout -->
   <div id='scenejsLog' style='display:none;'></div>
   <div id='dialog-background' style='display:none;'>
@@ -849,7 +849,7 @@
       </div>
       <div class='dialog-main'>
         <form id='upload-form' class='dialog-tab' onsubmit='return false;'>
-          <input type='file' id='upload-file' name='upload-file'></input>
+          <input type='file' id='upload-file' name='upload-file' />
           <div id='upload-file-info'></div>
           <div class='dialog-buttons'><button type='submit' class='dialog-button'>Open</button></div>
           <div class='dialog-messages'>
@@ -890,54 +890,71 @@
 
   <div id='main-layout'>
     <menu id='top-menu' class='horizontal-list' type='toolbar'>
+      <ul>
       <li class='top-menu-left'>
         <a id='top-menu-return-bimserver' href='http://localhost:8082/' style='display: none'>&lt; BiMserver</a>
         <a href='#'>File</a>
+        <div>
         <menu class='top-menu-dropdown vertical-list'><div class='top-menu-float'>
           <h4>Import</h4>
+          <ul>
           <li><a href='#' id='top-menu-import-bimserver'>BIMserver Project</a></li>
           <li><a href='#' id='top-menu-import-scenejs'>SceneJS File</a></li>
-        </div></menu>
+          </ul>
+        </div>
+        </menu>
+        </div>
       </li>
       <li>
         <a href='#'>Display</a>
-        <menu class='top-menu-dropdown vertical-list'><div class='top-menu-float'>
+        <menu class='top-menu-dropdown vertical-list'>
+        <div class='top-menu-float'>
           <h4>Palette</h4>
+          <ul>
           <li><a href='#' id='top-menu-palette-winter'>Winter Colors</a></li>
           <li><a href='#' id='top-menu-palette-autumn'>Autumn Colors</a></li>
           <li><a href='#' id='top-menu-palette-spring'>Spring Colors</a></li>
           <li><a href='#' id='top-menu-palette-summer'>Summer Colors</a></li>
+          </ul>
         </div></menu>
       </li>
       <li>
         <a href='#'>Settings</a>
         <menu class='top-menu-dropdown vertical-list'><div class='top-menu-float'>
           <h4>Performance</h4>
+          <ul>
           <li><a href='#' id='top-menu-performance-quality' class='top-menu-activated'>High Quality</a></li>
           <li><a href='#' id='top-menu-performance-performance'>High Performance</a></li>
+          </ul>
           <hr />
           <h4>Mode</h4>
+          <ul>
           <li><a href='#' id='top-menu-mode-basic' class='top-menu-activated'>Basic Mode</a></li>
           <li><a href='#' id='top-menu-mode-advanced'>Advanced Mode</a></li>
+          </ul>
         </div></menu>
       </li>
       <li>
         <a href='#'>Share</a>
-        <menu class='top-menu-dropdown vertical-list'><div class='top-menu-float'>
+        <menu class='top-menu-dropdown vertical-list'>
+        <div class='top-menu-float'>
+        <ul>
           <li><a href='#' id='top-menu-share-facebook'>Facebook</a></li>
           <li><a href='#' id='top-menu-share-twitter'>Twitter</a></li>
           <li><a href='#' id='top-menu-share-gplus'>Google+</a></li>
           <li><a href='#' id='top-menu-share-email'>Email</a></li>
+          </ul>
         </div></menu>
       </li>
       <li><a href='#' id='top-menu-about'>About</a></li>
       <li><a href='#' id='top-menu-help' class='top-menu-activated'>Help</a></li>
+	  </ul>    
     </menu>
     <div class='main-layout-row'><div style='display:table;width:100%;height:100%'><div style='display:table-row;width:100%;height:100%'>
       <div id='main-view'><div class='firefox-relative-cell'>
         <div id='main-menu'>
           <div id='main-menu-logo'></div>
-          <!-- --
+          <!--
           <div class='main-menu-panel ui-widget-content'>
             <h3>Controls</h3>
             <menu type='toolbar'>
@@ -945,16 +962,17 @@
               <li><a href='#'>+ Arcball</a></li>
               <li><a href='#'>+ Annotate</a></li>
             </menu>
-          </div>
-          <!-- -->
+          </div> -->
           <div class='main-menu-panel ui-widget-content'>
             <h3>Menu</h3>
             <menu type='toolbar'>
+            <ul>
               <li><a href='#' id='main-views-reset'>+ Reset</a></li>
               <li><a href='#' id='main-views-front'>+ Front</a></li>
               <li><a href='#' id='main-views-side'>+ Side</a></li>
               <li><a href='#' id='main-views-top'>+ Top</a></li>
               <li><a href='#' id='toggle-Pan-Rotate'>+ Rotate/Pan</a></li>
+              </ul>
             </menu>
           </div>
         </div>
@@ -969,11 +987,11 @@
 	        </div>
 	    </div>
         <div id='viewport'>
-          <!-- -->
+      
           <canvas id='scenejsCanvas' width='1024' height='512'>
             <p>This application requires a browser that supports the<a href='http://www.w3.org/html/wg/html5/'>HTML5</a>&lt;canvas&gt; feature.</p>
           </canvas>
-          <!-- -->
+
         </div>
         <div id='main-view-keys'>
           <div class='shortcut shortcut-selection shortcut-inspection'><div class='shortcut-mouse-left'></div>x2<span class='shortcut-description'>Inspect element</span></div>
@@ -1000,8 +1018,7 @@
 		            </div>
 				</div>
 				<div id="tab-filter">
-						<input name='filtertext' id='filtertext' type='text'></input>
-					</form>
+					<input name='filtertext' id='filterinput' type='text'/>
 					<div id='filter-output'>
 						<ul id='filtered-list'>
 						</ul>
@@ -1034,7 +1051,9 @@
           </a>
         </div>
         <menu id='snapshots-toolbar' class='horizontal-list' type='toolbar'>
+        <ul>
           <li id='snapshots-toolbar-play'><a id='snapshots-play' href='#'>&gt; Play</a></li>
+          </ul>
           <!-- 
           <li id='snapshots-toolbar-export' class='position-top-right'>
             <a href='#'>Export</a>
@@ -1072,26 +1091,23 @@
   <script src='static/lib/scenejs-2.0.0.0/scenejs.math.extra.js'></script>
   <!-- DEVELOPMENT -->
   <script src='static/lib/scenejs-2.0.0.0/scenejs.js'></script>
-  <!-- PRODUCTION --
+  <!-- PRODUCTION
   <script src='static/lib/scenejs-2.0.0.0/scenejs.min.js'></script>
-  <!-- -->
-  
-  <!-- Resources -->
+  -->
+  <!--Resources -->
 
-  <!-- --
+  <!--
   <script src='static/models/Vogel_Gesamt.js'></script>
-  <!-- --
+  
   <script src='static/models/WallOnly.js'></script>
-  <!-- --
   <script src='static/models/urban.js'></script>
-  <!-- -->
-
+-->
   <!-- Application logic -->
 
   <!-- DEVELOPMENT -->
   <script src='static/lib/app.js'></script>
-  <!-- PRODUCTION --
+  <!-- PRODUCTION
   <script src='static/lib/app.min.js'></script>
-  <!-- -->
+  -->
 </body>
 </html>
