@@ -2,6 +2,7 @@ MOST_BIMsurfer
 ==============
 
 3D BIM Viewer; BIMsurfer extended
+see http://www.youtube.com/watch?v=PV1LDgVCU6E
 
 authors:
 Kaltenriner Christoph (mailchriska@gmail.com) \\
